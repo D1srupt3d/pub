@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liam Gamache — Public Keys</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            background: '#0a0a0a',
+            foreground: '#ededed',
+            card: '#18181b',
+            border: '#27272a',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Text Selection */
+    ::selection {
+      background: #a855f7;
+      color: #ffffff;
+      text-shadow: none;
+    }
+
+    ::-moz-selection {
+      background: #a855f7;
+      color: #ffffff;
+      text-shadow: none;
+    }
+
+    /* Better Focus States */
+    *:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #18181b;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #3b82f6, #a855f7);
+      border-radius: 6px;
+      border: 2px solid #18181b;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #60a5fa, #c084fc);
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #3b82f6 #18181b;
+    }
+
+    /* Lattice lines background */
+    .lattice-lines {
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 79px,
+        rgba(255, 255, 255, 0.03) 79px,
+        rgba(255, 255, 255, 0.03) 80px
+      );
+    }
+
+    /* Page enter animation */
+    @keyframes pageEnter {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-page-enter {
+      animation: pageEnter 0.4s ease-out;
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Gradient background for cards */
+    .gradient-card {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+    }
+
+    /* Copied state */
+    .copy-btn.copied {
+      background: rgba(74, 222, 128, 0.1) !important;
+      border-color: #4ade80 !important;
+      color: #4ade80 !important;
+    }
+
+    /* Expanded key content */
+    .key-content.expanded {
+      max-height: none !important;
+    }
+
+    /* Blob animation */
+    @keyframes blob {
+      0% {
+        transform: translate(0px, 0px) scale(1);
+      }
+      33% {
+        transform: translate(30px, -50px) scale(1.1);
+      }
+      66% {
+        transform: translate(-20px, 20px) scale(0.9);
+      }
+      100% {
+        transform: translate(0px, 0px) scale(1);
+      }
+    }
+
+    .animate-blob {
+      animation: blob 7s infinite;
+    }
+
+    .animation-delay-2000 {
+      animation-delay: 2s;
+    }
+
+    .animation-delay-4000 {
+      animation-delay: 4s;
+    }
+  </style>
+</head>
+<body class="bg-background text-foreground min-h-screen font-sans lattice-lines relative overflow-x-hidden">
+  <!-- Animated gradient blobs -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-purple-600 rounded-full filter blur-[128px] opacity-20 animate-blob"></div>
+    <div class="absolute -top-40 -right-40 w-96 h-96 bg-blue-600 rounded-full filter blur-[128px] opacity-20 animate-blob animation-delay-2000"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500 rounded-full filter blur-[128px] opacity-15 animate-blob animation-delay-4000"></div>
+  </div>
+
+  <div class="max-w-3xl mx-auto px-6 py-16 animate-page-enter relative z-10">
+    <header class="mb-16">
+      <svg class="w-12 h-12 mb-6 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        <circle cx="12" cy="16" r="1"/>
+      </svg>
+      <h1 class="text-5xl font-bold tracking-tight mb-3 bg-gradient-to-br from-foreground to-zinc-500 bg-clip-text text-transparent">D1srupt3d</h1>
+      <p class="mb-4">
+        <a href="mailto:liam@gamache.dev" class="inline-block font-mono text-sm px-4 py-1.5 border border-zinc-700 rounded-full text-foreground hover:border-blue-500 hover:text-blue-500 transition-all">liam@gamache.dev</a>
+      </p>
+      <p class="text-zinc-400 text-lg">Public keys for <span class="gradient-text font-medium">secure communication</span> & <span class="gradient-text font-medium">identity verification</span></p>
+    </header>
+
+    <main>
+      <!-- GPG Key (Primary) -->
+      <section class="bg-card border border-blue-500/40 rounded-2xl p-6 mb-6 gradient-card hover:border-blue-500/60 transition-all">
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-mono text-xs font-medium px-3 py-1 rounded-full uppercase tracking-wider">Primary</span>
+            <span class="bg-blue-500/10 text-blue-500 border border-blue-500/20 font-mono text-xs font-medium px-3 py-1 rounded-full uppercase tracking-wider">GPG</span>
+            <span class="text-zinc-400 text-sm">RSA 4096</span>
+          </div>
+          <button class="copy-btn flex items-center gap-2 bg-transparent border border-zinc-700 text-zinc-400 px-4 py-2 rounded-lg text-sm hover:border-blue-500 hover:text-foreground hover:bg-blue-500/10 transition-all" onclick="copyKey(this, 'gpg-key')">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span>Copy</span>
+          </button>
+        </div>
+        <div class="text-xs text-zinc-500 mb-3">Expires: 2027-11-28</div>
+        <div class="key-content bg-background border border-zinc-700 rounded-lg p-4 overflow-auto max-h-48" id="gpg-container">
+          <pre class="font-mono text-xs text-foreground leading-relaxed whitespace-pre" id="gpg-key">
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+mQINBGko6xgBEAC++O8PBJaQ2UFVKyvm/9boHNW4zXWKJ8Pu4UwshNYBVqDMzjIm
+rSXDFVsMNjqhmskqZ4FRadD92FM3rREHXW57pkrYvoeweHz92U9d7rN3UNK4rHTw
+SbmoSCX6pkNUPHvL6XTVOVq0/VBFnqa+Ge2r/cJUPIsVWNheViFfaR2/uGlOyfe7
+lgkrC9zhAz7jgR3lmFQjPgB29cCwuThfAu9KD8N8mCafuqKYU1kCJzc2pkO+QyGe
+u4ydX2t6mnFsVq3HGsHyN7ZJH6gI4mlN1BH4E67gCvMpEUgN69gq6jtHSrEJV7UG
+nExp6hpPY3iUoW+xDHSBRFe+/UtEarZOtXHs90sux0pxEpqMmGgYcu3aQbttirfu
+5FdJQk1KnPF4oWbouFhWTPtKHti13DBJPL3UtWz8Z+tRW1kgeQBsF13vUIgVHQbE
+qlnssSMbJVRrE6iIWAFSEy+cTsD04BlFkWyITKSLtLRJVr6xkoYOIKxCJyCyMjZa
+VGyK6gSp0hRnKOmUazpdox4EofMwbQwFBiHCkBMJwHVLyxxqb0hpsEL+pwUxn/tF
+TLEiO0kMtogwWnBvvljhatLeNLacNWsJr9Q8+oOZmVMfjdsl5XhD5+twjuuOTtuv
+xpoybBkR6e6k6BiUmuTYpY3SzwCpCQsOToeMV94UNtzOKrFsABonNagw3QARAQAB
+tB9MaWFtIEdhbWFjaGUgPGxpYW1AZ2FtYWNoZS5kZXY+iQJUBBMBCgA+FiEESQya
+r/PjZO0HYcb8dEXQCo/lkMcFAmko6xgCGwEFCQlmAYAFCwkIBwIGFQoJCAsCBBYC
+AwECHgECF4AACgkQdEXQCo/lkMduwA/+Ku1sm8Z4hGyW3JB8kLjbTWlzUIMiYWDz
+1w22sy/yEq68he1q02lsQiW05n7uzXy4WTlb6ixSIIzpl5sqvE35kxTBpuIo7q07
+yG3Oef1YDIdXivdpVvhXq0xGlaZV/aaLwuTc/yUMmj0TmjNm0JlnHZIYzoiuizNs
+R4U9BegsxRFBE6A9TqCVKEGabGuS1NaFCDThl3AIax1WJo+BE8Bduq3emMpxKt88
+oNGzCjgMyhuHuJPSXT6XP+s+f7OB6fKVDByWgBafdUl10lTo/m0I30svznqsV5cv
+rxz28dNt44jsXEljJT7NZnQ3QurvA4Mv/NecVB7SKK7B1EeONY0RTQsTO/2cKfiE
+nd3x+KSOsuk6QjGZVdoQ1d8QWo+SRcvDFFUovpP0rGPbMdkYJivl9+Xh3xjxmtqA
+RvrPGzX98JnN15StIL7AqWt6pbMYUMYTMyY1VH9oFbDuG2iGcqGlex4j5YI7P5nR
+AQXZ25RQ0Lx7iDicfr2ItwI5zRmQKh5yxifrInlt7qoYqaesBB3vC6N0KjhZ9oYA
+bq6mZSmoJ7q3PIdjztjKww80tBJeMSNAD1LtkPam3NxGWLykm3LHEIjcFfCMjOLm
+omWR7xKLBDn0ipgaxd5F4e8FohF+QaGCN1STgde0dVfxqVi3gLO9sFZUTDMt671F
+IEqSiJXeEX+5Ag0EaSjr7QEQAMMFWfZKqnyGf4IZS0u3z95X5CtAalHcwZzlKV53
+eHIFbKy0cIt39v+A0DEzSUIMxzF3yFfuu3+Cjghs5/PNc6tC+PiIpLpvNMLA+ted
+/EXBj+ECWJcDu0kdgazJUiB0ovuZAAN1zFiqJIIHRSfbDGHLUvP1WC3GF/VNDE/N
+Rd4JTUVSAl+NtFwQYrtFIm2DJUB02S1NaRRQC+dJLLvmAhrPDYbOrMvthi3tgEaT
+xa+qaEoPRCx8bU++8L47e08LiXIA6nnpQ8/7cJeSJJP6BfnHV3TAp5g8d2As49+P
+tfea7X7zfmwjamVxp8uCATF87b1aatqgjFmx9/1HXzksr3Vb5GLrHPO9Bw0Brsva
+vu15D0tu1bbe+/EMv+2d52SQYuYSKyQzKYsvCAvY0tuw2ATDBUdRSwXoDs8tU8Zb
+/fRn5ul0fuQzlm4EtBsxPpchhVDNB+HVLhseQhFGaC100Dtzf/xh4ZPzt5U9SsoF
+dFINQua5CLL6OXoTCBaK6gvhsxwlaFhdeQino/lHHvjkSgw7OhKsJPe74hGZ8fFP
+jCheLIwgMSRPbaHXwOegZzbQK8jlQYr0pEPD12km83CRECaPoZLPhYwbXoJ62fZN
+W9BApDL2zx4VcO85rh3867Js6L8JayKjQ4K4WZC/XcytwZ7ZaX7IztsDJOP+Xd2k
+7ehjABEBAAGJAjsEGAEKACYWIQRJDJqv8+Nk7Qdhxvx0RdAKj+WQxwUCaSjr7QIb
+IAUJA8JnAAAKCRB0RdAKj+WQx1ErD/iDYzJ2UWScFtIlsIUsM/8I9Z8sLL0vry3s
+RHuIJxbSMqmf/DhuA9hDuvrdPzd25EYI6d8DoSMG8ghDI+cApXgwrmZj9TOR1Hc3
+PtA61BtF75KLsCj7R9sdp+HniMy2CBg5D3HD10TJqIFto2w9guegzXc3jPTZ1f7r
+XHY7FrRG4V4GId8d08/HTp4632/3JsG+Qz8KRU+WYg0+r7EvPbg7shxzd6TTK3Ql
+Y6/CJUbyuMfbJvAvIT+zuO0C2mB+9wHNKsdgdu7wKsH0mbI3pZwmrRQgJzb6Q9JX
+5TUhBVdnC32iYyFjGO7HLdC6CXHHdhfIxOe5g4Eg2Cdhefb0uSjQbXd6Rf024+JJ
+L9FCrPTmmU1SuB+HP6QbS5OVDrVHZUcapRYJWPxC1N4rri8wzix+OXotp1uW7Vzh
+0IJitRBo/sf93uP9E/i+BmPnXDyQG9K4wDxNjNANfYU3ExKXHfoSahDDFvWVDNk/
+KNrh1Xhv9GqGEzWokNpeLesjWEI79agEovbgTVi5x1SpzOp+ipXlHcf5FPELkX5q
+6AbtAzMQjGx4c9RH440reuM2hiLLDDMOUlxoof8iZXV7FcWVjtxjUd3Dsv7hQq2C
+48RCTqcPnyoKAhkOdGOOdsbTpHolY+/Ks4Hs0W+uWTFrImGLmPwNZxW6HzrVWxWr
+oaP0Jezm=qPhR
+-----END PGP PUBLIC KEY BLOCK-----</pre>
+        </div>
+        <button class="w-full bg-transparent border border-zinc-700 border-t-0 rounded-b-lg text-zinc-500 py-2 text-sm hover:text-foreground hover:bg-zinc-800 transition-all" onclick="toggleExpand(this, 'gpg-container')">Show full key</button>
+        <div class="mt-4 pt-4 border-t border-zinc-700">
+          <div class="text-xs text-zinc-500 uppercase tracking-widest mb-2">Fingerprint</div>
+          <div class="font-mono text-sm gradient-text tracking-wider">D26E E242 31EB 1DCC 8EE4 7795 3398 BEED 227F CBC4</div>
+        </div>
+      </section>
+
+      <!-- Usage Section -->
+      <section class="mt-12">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-6">How to Use</h2>
+        
+        <div class="bg-card border border-zinc-700 rounded-2xl p-6 mb-4 hover:border-blue-500/30 transition-all">
+          <h3 class="text-base font-medium mb-3">Send me an encrypted email</h3>
+          <p class="text-zinc-400 text-sm mb-4">Import my GPG key and encrypt your message:</p>
+          <pre class="bg-background border border-zinc-700 rounded-lg p-4 font-mono text-xs text-foreground overflow-x-auto leading-relaxed"># Import the key
+gpg --import liam-gamache.asc
+
+# Encrypt a message
+gpg --encrypt --armor --recipient liam@gamache.dev message.txt</pre>
+        </div>
+
+        <div class="bg-card border border-zinc-700 rounded-2xl p-6 mb-4 hover:border-blue-500/30 transition-all">
+          <h3 class="text-base font-medium mb-3">Verify my signatures</h3>
+          <p class="text-zinc-400 text-sm mb-4">Verify that a signed file or git commit is authentically from me:</p>
+          <pre class="bg-background border border-zinc-700 rounded-lg p-4 font-mono text-xs text-foreground overflow-x-auto leading-relaxed"># Verify a signed file
+gpg --verify file.sig file
+
+# Verify a git commit
+git verify-commit &lt;commit-hash&gt;</pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-700 text-center text-zinc-500 text-sm">
+      <p>Only public keys are shared here. Never share private keys.</p>
+    </footer>
+  </div>
+
+  <script>
+    function copyKey(button, elementId) {
+      const keyText = document.getElementById(elementId).textContent.trim();
+      navigator.clipboard.writeText(keyText).then(() => {
+        const originalText = button.querySelector('span').textContent;
+        button.classList.add('copied');
+        button.querySelector('span').textContent = 'Copied!';
+        
+        setTimeout(() => {
+          button.classList.remove('copied');
+          button.querySelector('span').textContent = originalText;
+        }, 2000);
+      });
+    }
+
+    function toggleExpand(button, containerId) {
+      const container = document.getElementById(containerId);
+      const isExpanded = container.classList.toggle('expanded');
+      button.textContent = isExpanded ? 'Show less' : 'Show full key';
+    }
+  </script>
+</body>
+</html>
