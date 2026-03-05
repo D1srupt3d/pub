@@ -363,34 +363,6 @@
       to { width: 100%; }
     }
 
-    /* ========== QR CODE STYLES ========== */
-    .qr-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .qr-modal.show {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .qr-content {
-      transform: scale(0.9);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .qr-modal.show .qr-content {
-      transform: scale(1);
-    }
 
     /* ========== SHARE BUTTON STYLES ========== */
     .share-menu {
@@ -572,14 +544,6 @@
               <span>Download</span>
             </button>
 
-            <!-- QR Code Button -->
-            <button class="btn glass px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-white/10 transition-all flex items-center gap-2" onclick="showQRCode()">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
-              </svg>
-              <span>QR</span>
-            </button>
-
             <!-- Share Button -->
             <div class="relative">
               <button class="btn glass px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-white/10 transition-all flex items-center gap-2" onclick="toggleShareMenu()">
@@ -757,7 +721,7 @@
             </button>
           </div>
           <div class="font-mono text-sm gradient-text tracking-wider font-medium break-all" id="fingerprint">
-            87AE 6904 63DE 69CF D129  6961 086E 2A2C F6CD 0CD5
+            87AE 6904 63DE 69CF D129 6961 086E 2A2C F6CD 0CD5
           </div>
         </div>
 
@@ -919,32 +883,6 @@ git verify-commit &lt;commit-hash&gt;</pre>
     </footer>
   </div>
 
-  <!-- ========== QR CODE MODAL ========== -->
-  <div class="qr-modal" id="qr-modal" onclick="closeQRCode(event)">
-    <div class="qr-content glass-strong rounded-2xl p-8 max-w-md" onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between mb-6">
-        <h3 class="text-xl font-bold">Scan QR Code</h3>
-        <button onclick="closeQRCode()" class="text-gray-400 hover:text-white transition-all">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-      <div class="bg-white p-6 rounded-xl mb-4">
-        <div id="qr-code-container" class="flex items-center justify-center">
-          <!-- QR Code will be generated here -->
-          <div class="text-center text-gray-800">
-            <p class="mb-2">QR Code for:</p>
-            <p class="font-mono text-xs break-all">https://pub.d1srupt3d.dev</p>
-          </div>
-        </div>
-      </div>
-      <p class="text-center text-sm text-gray-400">
-        Scan to view this page on your mobile device
-      </p>
-    </div>
-  </div>
-
   <!-- ========== TOAST NOTIFICATION ========== -->
   <div class="toast" id="toast">
     <svg class="w-5 h-5" id="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1050,20 +988,6 @@ git verify-commit &lt;commit-hash&gt;</pre>
       showToast('GPG key downloaded!');
     }
 
-    // ========== QR CODE FUNCTIONS ==========
-    function showQRCode() {
-      const modal = document.getElementById('qr-modal');
-      modal.classList.add('show');
-      // In production, you'd generate a real QR code here using a library like qrcode.js
-      // For now, we just show a placeholder
-    }
-
-    function closeQRCode(event) {
-      if (!event || event.target.id === 'qr-modal' || event.target.closest('button')) {
-        const modal = document.getElementById('qr-modal');
-        modal.classList.remove('show');
-      }
-    }
 
     // ========== SHARE FUNCTIONS ==========
     function toggleShareMenu() {
@@ -1216,9 +1140,7 @@ git verify-commit &lt;commit-hash&gt;</pre>
 
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-      // ESC to close modals
       if (e.key === 'Escape') {
-        closeQRCode();
         const shareMenu = document.getElementById('share-menu');
         if (shareMenu) shareMenu.classList.remove('show');
       }
