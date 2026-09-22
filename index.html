@@ -4,82 +4,87 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="PGP public key for Liam Gamache (D1srupt3d).">
-  <title>Liam Gamache · D1srupt3d · PGP public key</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>PGP Public Key | Liam Gamache</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <style>
     :root {
-      --bg: #0a0a0a;
-      --fg: #e4e4e7;
+      --bg: #0a0805;
+      --block: #050402;
+      --border: #3a2a10;
+      --fg: #d4d4d8;
       --muted: #a1a1aa;
-      --accent: #8b5cf6;
-      --border: rgba(255, 255, 255, 0.1);
-      --code-bg: #161616;
+      --amber: #ffb000;
+      --hot: #ff7a00;
+      --mono: ui-monospace, Menlo, Consolas, monospace;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--fg);
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.6;
-      font-size: 16px;
+      font: 16px/1.6 system-ui, sans-serif;
     }
-    main {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem;
-    }
-    h1 { font-size: 1.75rem; margin: 0 0 0.5rem; font-weight: 600; }
+    main { max-width: 42rem; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    a { color: var(--amber); text-decoration: none; }
+    a:hover { color: var(--hot); }
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+    ::selection { background: var(--hot); color: #000; }
+
+    header { font-family: var(--mono); font-weight: 700; letter-spacing: .05em; margin-bottom: 4rem; }
+    .tag { font-family: var(--mono); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--amber); }
+    h1 { font-size: 2.5rem; line-height: 1.1; letter-spacing: -.02em; margin: .5rem 0 1rem; color: #f4f4f5; }
+    .lede { font-size: 1.125rem; color: var(--muted); margin: 0 0 3rem; }
+
     h2 {
-      font-size: 0.875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin: 2.5rem 0 0.75rem;
-      font-weight: 600;
+      font-family: var(--mono); font-size: .75rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--amber);
+      margin: 2.5rem 0 .5rem;
     }
-    p { margin: 0.5rem 0; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    pre, code {
-      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      font-size: 0.875rem;
-    }
+    p { margin: 0 0 .75rem; color: var(--muted); }
     pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1rem;
-      overflow-x: auto;
-      margin: 0.5rem 0;
-      white-space: pre;
+      margin: 0; padding: 1rem; overflow-x: auto;
+      background: var(--block); border: 1px solid var(--border); border-radius: .5rem;
+      font: .875rem/1.6 var(--mono); color: #f4f4f5;
     }
+    .p { color: var(--amber); }
+    .c { color: var(--muted); }
+    .fp { color: var(--amber); font-weight: 700; }
+
+    .key { font-size: .75rem; }
+
     footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.875rem;
-      color: var(--muted);
+      margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+      font-family: var(--mono); font-size: .75rem; color: var(--muted);
     }
-    footer p { margin: 0.25rem 0; }
-    footer a { color: var(--muted); }
   </style>
 </head>
 <body>
   <main>
-    <h1>Liam Gamache · D1srupt3d</h1>
-    <p>PGP public key for verifying signatures and encrypting messages.</p>
+    <header><a href="https://d1srupt3d.dev">d1srupt3d</a></header>
+
+    <span class="tag">&gt; PGP</span>
+    <h1>Public Key</h1>
+    <p class="lede">The key I sign with and the one to encrypt to. Only public material lives here.</p>
 
     <h2>Fingerprint</h2>
-    <pre>87AE 6904 63DE 69CF D129  6961 086E 2A2C F6CD 0CD5</pre>
-    <p>Expires 2028-03-04.</p>
+    <p>Compare every group before you trust the key. Expires 2028-03-04.</p>
+    <pre><span class="p">❯</span> gpg --fingerprint liam@gamache.dev
+<span class="fp">87AE 6904 63DE 69CF D129  6961 086E 2A2C F6CD 0CD5</span></pre>
 
     <h2>Import</h2>
-    <pre>curl -s https://pub.d1srupt3d.dev/key.asc | gpg --import</pre>
+    <p>Pulls <a href="key.asc">key.asc</a> straight into your keyring.</p>
+    <pre><span class="p">❯</span> curl -s https://pub.d1srupt3d.dev/key.asc | gpg --import</pre>
 
-    <h2>Public key</h2>
-    <pre>
------BEGIN PGP PUBLIC KEY BLOCK-----
+    <h2>Use</h2>
+    <pre><span class="c"># encrypt a message to me</span>
+<span class="p">❯</span> gpg --encrypt --armor --recipient liam@gamache.dev message.txt
+
+<span class="c"># verify a signature from me</span>
+<span class="p">❯</span> gpg --verify file.sig file</pre>
+
+    <h2>Public key block</h2>
+    <p>Same bytes as <a href="key.asc">key.asc</a>, inline for copy and paste.</p>
+    <pre class="key">-----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBGmo4QgBEAC33xC/hsWl6b8tpgdPoKOGdFoQFdXaLUtT2Ok/ESWeuFeBSkeK
 jiGOTU82eEVFIsMxvZVITp247cLBVztlh5zCPsgOqgR2zh4VEY3DOMmsG5ewpV6K
@@ -190,19 +195,10 @@ jfvz4hueS6apnw+8qXn10zbSMeQ3WGuA8S1/UN6pgYAlNvwNxzsGG7B8GwIq3vlV
 VnErbs9sz6A/RpK4q82gs0fnsbKxxPDGtYgXJw7UGsm+u/6nM7kz8VHmYAVbfzqy
 LLMx0wT/gaSVy+GSp80=
 =bvNF
------END PGP PUBLIC KEY BLOCK-----
-</pre>
-
-    <h2>Use</h2>
-    <pre># Encrypt a message to me
-gpg --encrypt --armor --recipient "my email address" message.txt
-
-# Verify a signature from me
-gpg --verify file.sig file</pre>
+-----END PGP PUBLIC KEY BLOCK-----</pre>
 
     <footer>
-      <p>Source: <a href="https://github.com/D1srupt3d/pub">github.com/D1srupt3d/pub</a></p>
-      <p>Only public keys live here.</p>
+      <a href="https://d1srupt3d.dev">liam gamache</a> · <a href="https://github.com/D1srupt3d/pub">source</a> · only public keys live here
     </footer>
   </main>
 </body>
