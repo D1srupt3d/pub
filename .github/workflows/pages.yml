@@ -25,7 +25,11 @@ jobs:
       - name: Stage public files
         run: |
           mkdir -p _site
-          cp index.html favicon.svg key.asc CNAME _site/
+          cp index.html favicon.svg key.asc allowed_signers CNAME _site/
+          # Permanent per-key link. Rename when the key is rotated.
+          cp key.asc _site/87AE690463DE69CFD1296961086E2A2CF6CD0CD5.asc
+          # Stamp the footer with the commit this build came from.
+          sed -i "s|<!--build-->| · built from <a href=\"https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA\">${GITHUB_SHA:0:7}</a>|" _site/index.html
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

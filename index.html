@@ -86,7 +86,7 @@
     </script>
 
     <h2>Import</h2>
-    <p>Pulls <a href="key.asc">key.asc</a> straight into your keyring.</p>
+    <p>Pulls <a href="key.asc">key.asc</a> straight into your keyring. This key also lives at a permanent per-key link, <a href="87AE690463DE69CFD1296961086E2A2CF6CD0CD5.asc">87AE6904…0CD5.asc</a>.</p>
     <pre><span class="p">❯</span> curl -s https://pub.d1srupt3d.dev/key.asc | gpg --import</pre>
 
     <h2>Use</h2>
@@ -95,6 +95,14 @@
 
 <span class="c"># verify a signature from me</span>
 <span class="p">❯</span> gpg --verify file.sig file</pre>
+
+    <h2>SSH commit signing</h2>
+    <p>My git commits are signed with this SSH key, listed in <a href="allowed_signers">allowed_signers</a>.</p>
+    <pre><span class="c">ssh</span>   ed25519 <span class="fp">SHA256:eU/SnOPWrF7RHKL+2cZPpVcfEEUOG/v0q997ulg5qRg</span>
+
+<span class="c"># verify my commits in any repo</span>
+<span class="p">❯</span> curl -sO https://pub.d1srupt3d.dev/allowed_signers
+<span class="p">❯</span> git -c gpg.ssh.allowedSignersFile="$PWD/allowed_signers" log --show-signature</pre>
 
     <h2>Public key block</h2>
     <p>Same bytes as <a href="key.asc">key.asc</a>, inline for copy and paste.</p>
@@ -212,7 +220,7 @@ LLMx0wT/gaSVy+GSp80=
 -----END PGP PUBLIC KEY BLOCK-----</pre>
 
     <footer>
-      <a href="https://d1srupt3d.dev">liam gamache</a> · <a href="https://github.com/D1srupt3d/pub">source</a> · only public keys live here
+      <a href="https://d1srupt3d.dev">liam gamache</a> · <a href="https://github.com/D1srupt3d/pub">source</a> · only public keys live here<!--build-->
     </footer>
   </main>
 </body>
