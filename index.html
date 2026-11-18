@@ -66,10 +66,24 @@
     <h1>Public Key</h1>
     <p class="lede">The key I sign with and the one to encrypt to. Only public material lives here.</p>
 
-    <h2>Fingerprint</h2>
-    <p>Compare every group before you trust the key. Expires 2028-03-04.</p>
+    <h2>Fingerprint and lifetime</h2>
+    <p>Compare every group before you trust the key.</p>
     <pre><span class="p">❯</span> gpg --fingerprint liam@gamache.dev
-<span class="fp">87AE 6904 63DE 69CF D129  6961 086E 2A2C F6CD 0CD5</span></pre>
+<span class="c">pub</span>   rsa4096 2026-03-05 [C] [expires: <span class="p">2028-03-04</span>]
+      <span class="fp">87AE 6904 63DE 69CF D129  6961 086E 2A2C F6CD 0CD5</span>
+<span class="c">uid</span>           Liam Gamache &lt;liam@gamache.dev&gt;
+<span class="c">sub</span>   rsa4096 2026-03-05 [S] [expires: <span class="p">2028-03-03</span>]
+<span class="c">sub</span>   rsa4096 2026-03-05 [E] [expires: <span class="p">2028-03-03</span>]
+<span class="c">sub</span>   rsa4096 2026-03-05 [A] [expires: <span class="p">2028-03-03</span>]<span id="life"></span></pre>
+    <script>
+      // Live lifetime bar. Update both dates when the key is renewed.
+      const a = Date.parse('2026-03-05'), b = Date.parse('2028-03-04'), now = Date.now();
+      const f = Math.min(1, Math.max(0, (now - a) / (b - a)));
+      const n = Math.round(f * 30), days = Math.max(0, Math.ceil((b - now) / 864e5));
+      document.getElementById('life').innerHTML = '\n\n<span class="c"># lifetime</span>\n[<span class="p">' +
+        '#'.repeat(n) + '</span>' + '.'.repeat(30 - n) + '] ' + Math.round(f * 100) + '%  <span class="p">' +
+        (days ? days + ' days left' : 'expired') + '</span>';
+    </script>
 
     <h2>Import</h2>
     <p>Pulls <a href="key.asc">key.asc</a> straight into your keyring.</p>
